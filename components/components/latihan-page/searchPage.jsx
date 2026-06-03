@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import {
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    TextInput,
-    View,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  TextInput,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ListBooks from "../../constants/listBooks";
@@ -14,7 +14,7 @@ import BookCollections from "./bookCollections";
 
 function SearchPage() {
   const [search, setSearch] = useState("");
-  const [books, setBooks] = useState(ListBooks);
+  const books = ListBooks;
 
   const BookDaraMemori = useMemo(() => {
     let computeData = [...books];

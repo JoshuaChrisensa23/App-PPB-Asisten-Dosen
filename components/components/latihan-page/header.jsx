@@ -1,7 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect, useRouter } from "expo-router";
+import React, { useCallback, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../styles/styleAppLatihan";
 
@@ -9,11 +9,7 @@ const Header = () => {
   const router = useRouter();
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
-
-  const checkLoginStatus = async () => {
+  const checkLoginStatus = useCallback(async () => {
     try {
       const userDataString = await AsyncStorage.getItem("userData");
       if (userDataString === null) {
@@ -26,7 +22,13 @@ const Header = () => {
       console.warn("Error checking login status", error);
       setUserData({ username: "Discover Books" });
     }
-  };
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      checkLoginStatus();
+    }, [checkLoginStatus])
+  );
 
   return (
     <View style={styles.h_container}>

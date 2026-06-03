@@ -54,4 +54,30 @@ const AUTH_USER = async (param) => {
   }
 };
 
-export { AUTH_USER, AXIOS_REQUEST };
+const GET_USER_BY_USERNAME = async (username) => {
+  try {
+    const config = {
+      method: "GET",
+      url: "https://fakestoreapi.com/users",
+    };
+
+    const response = await AXIOS_REQUEST(config);
+    if (response.data && Array.isArray(response.data)) {
+      const user = response.data.find((u) => u.username === username);
+      if (user) {
+        return { loading: false, message: "", data: user };
+      }
+      return { loading: false, message: "User details not found", data: null };
+    }
+    return response;
+  } catch (error) {
+    console.warn("Error in GET_USER_BY_USERNAME:", error);
+    return {
+      loading: false,
+      message: "An unexpected error occurred while fetching user details",
+      data: null,
+    };
+  }
+};
+
+export { AUTH_USER, AXIOS_REQUEST, GET_USER_BY_USERNAME };

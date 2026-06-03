@@ -1,7 +1,6 @@
 import React from "react";
-import { View } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextInput } from "react-native-web";
 
 export default function Latihan5() {
   const [count, setCount] = React.useState(0);

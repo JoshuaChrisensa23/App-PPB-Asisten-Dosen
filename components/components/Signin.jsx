@@ -1,12 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { AUTH_USER } from "../hooks/API";
 
-export default function Signin() {
-  const [username, setUsername] = useState("mor_2313");
-  const [password, setPassword] = useState("83r5^_");
+const CORRECT_USERNAME = "mor_2314";
+const CORRECT_PASSWORD = "83r5^_";
+
+export default function SignIn() {
+  const [username, setUsername] = useState(CORRECT_USERNAME);
+  const [password, setPassword] = useState(CORRECT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -46,14 +49,19 @@ export default function Signin() {
         await AsyncStorage.setItem("authToken", results.data.token);
 
         setIsLoading(false);
-        Alert.alert("Success", `Welcome ${username}!`, [
-          {
-            text: "OK",
-            onPress: () => {
-              router.replace("/main-apps");
+        if (Platform.OS === "web") {
+          alert(`Welcome ${username}!`);
+          router.replace("/main-apps");
+        } else {
+          Alert.alert("Success", `Welcome ${username}!`, [
+            {
+              text: "OK",
+              onPress: () => {
+                router.replace("/main-apps");
+              },
             },
-          },
-        ]);
+          ]);
+        }
       } catch (error) {
         console.error("Error saving user data:", error);
         Alert.alert("Error", "Failed to save user data");
