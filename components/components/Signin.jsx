@@ -1,7 +1,15 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { useState } from "react";
-import { ActivityIndicator, Alert, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AUTH_USER } from "../hooks/API";
 
 const CORRECT_USERNAME = "mor_2314";
@@ -45,8 +53,13 @@ export default function SignIn() {
           loginTime: new Date().toISOString(),
         };
 
-        await AsyncStorage.setItem("userData", JSON.stringify(userData));
-        await AsyncStorage.setItem("authToken", results.data.token);
+        if (Platform.OS === "web") {
+          localStorage.setItem("userData", JSON.stringify(userData));
+          localStorage.setItem("authToken", results.data.token);
+        } else {
+          await SecureStore.setItemAsync("userData", JSON.stringify(userData));
+          await SecureStore.setItemAsync("authToken", results.data.token);
+        }
 
         setIsLoading(false);
         if (Platform.OS === "web") {
@@ -74,11 +87,33 @@ export default function SignIn() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", padding: 24, backgroundColor: "#f9f9f9" }}>
-      <Text style={{ fontSize: 28, fontWeight: "bold", marginBottom: 8, textAlign: "center", color: "#333" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        padding: 24,
+        backgroundColor: "#f9f9f9",
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "bold",
+          marginBottom: 8,
+          textAlign: "center",
+          color: "#333",
+        }}
+      >
         Welcome Back
       </Text>
-      <Text style={{ fontSize: 16, color: "#666", marginBottom: 32, textAlign: "center" }}>
+      <Text
+        style={{
+          fontSize: 16,
+          color: "#666",
+          marginBottom: 32,
+          textAlign: "center",
+        }}
+      >
         Sign in to continue discovering great books
       </Text>
 

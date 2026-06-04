@@ -1,14 +1,58 @@
 import { Ionicons } from "@expo/vector-icons";
 // import { AppleMaps, GoogleMaps } from "expo-maps";
+import React, { useEffect, useState } from "react";
 import { Platform, Text, View } from "react-native";
 import { AppleMaps, GoogleMaps } from "react-native-maps";
+import * as Location from "expo-location";
 import { color_list, style_explore } from "../../styles/styleAppLatihan";
 
 const MapsView = ({ curent_location, markersAddress = [] }) => {
+  const [location, setLocation] = useState(curent_location ?? null);
+  const [loadingLocation, setLoadingLocation] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (curent_location) {
+      setLocation(curent_location);
+      return;
+    }
+
+    (async () => {
+      try {
+        setLoadingLocation(true);
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          setLoadingLocation(false);
+          return;
+        }
+
+        const pos = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Highest,
+        });
+
+        const coords = {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        };
+
+        if (mounted) setLocation(coords);
+      } catch (e) {
+        // swallow; map will fallback
+      } finally {
+        if (mounted) setLoadingLocation(false);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [curent_location]);
+
   const cameraPosition = {
     coordinates: {
-      latitude: curent_location?.latitude,
-      longitude: curent_location?.longitude,
+      latitude: location?.latitude,
+      longitude: location?.longitude,
     },
     zoom: 13,
   };

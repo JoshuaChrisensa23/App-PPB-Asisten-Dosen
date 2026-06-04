@@ -2,21 +2,21 @@
   "version": 3,
   "tool_version": "0.4.2",
   "files": {
-    "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\eslint.config.js": {
-      "mtime": 499162500,
-      "size": 237
-    },
     "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\scripts\\reset-project.js": {
       "mtime": 499162500,
       "size": 3608
+    },
+    "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\components\\styles\\styleApp.js": {
+      "mtime": 1777011570,
+      "size": 2303
     },
     "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\components\\styles\\styleAppLatihan.js": {
       "mtime": 1779780133,
       "size": 5280
     },
-    "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\components\\styles\\styleApp.js": {
-      "mtime": 1777011570,
-      "size": 2303
+    "d:\\Kuliah\\Pengajaran Asdos Lab\\PPB\\App-Project\\eslint.config.js": {
+      "mtime": 499162500,
+      "size": 237
     }
   }
 }
